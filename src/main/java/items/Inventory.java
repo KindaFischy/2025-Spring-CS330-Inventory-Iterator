@@ -1,9 +1,8 @@
 package items;
 
-import java.util.List;
 import java.util.ArrayList;
-
 import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,7 +29,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
      */
     public static void mergeStacks(ItemStack lhs, ItemStack rhs)
     {
-        // Refer to the notes from Assignment 1
+        lhs.addItems(rhs.size());
     }
 
     /**
@@ -94,8 +93,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
      */
     public boolean isFull()
     {
-        // Replace the next line
-        return false;
+        return (capacity == slots.size());
     }
 
     /**
@@ -118,8 +116,11 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
      */
     public ItemStack findMatchingItemStack(ItemStack key)
     {
-        // Adapt the logic from Assignment 1
-
+        for (ItemStack stack : slots) {
+            if (stack.equals(key)) {
+                return stack;
+            }
+        }
         return null;
     }
 
@@ -131,6 +132,7 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public void addItemStackNoCheck(ItemStack toAdd)
     {
         // Add the missing (one) line by using `this.slots.add(????)`
+        this.slots.add(toAdd);
     }
 
     /**
@@ -166,8 +168,11 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
     public Inventory clone()
     {
         Inventory copy = new Inventory(this.totalSlots());
-
-        // Add the missing copy logic (loop)
+        
+        // adding a clone of the itemstack
+        for (ItemStack stack : this.slots) {
+            copy.addItems(stack.clone());
+        }
 
         return copy;
     }
@@ -215,6 +220,10 @@ public class Inventory implements Iterable<ItemStack>, Cloneable
         strBld.append(summaryLine);
 
         // Add the missing loop
+        for (ItemStack stack : this.slots) {
+            String itemLine = String.format("  %s%n", stack.toString());
+            strBld.append(itemLine);
+        }
 
         return strBld.toString();
     }
